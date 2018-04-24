@@ -4,6 +4,8 @@ import { Feed, Post } from "./utils";
 import cloneDeep from "lodash/cloneDeep";
 import uniqBy from "lodash/uniqBy";
 import findIndex from "lodash/findIndex";
+import find from "lodash/find";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -29,6 +31,10 @@ export default new Vuex.Store({
       } else {
         state.errors.push("You already subscribed to this feed");
       }
+    },
+    selectFeed(state, feedUrl) {
+      let feed = find(state.feeds, o => o.url === feedUrl);
+      state.selectedFeed = feed;
     }
   },
   getters: {
@@ -52,6 +58,9 @@ export default new Vuex.Store({
       let fetching = new Promise(async (resolve, reject) => {
         await newFeed.getFavicon();
         await newFeed.fetchPosts();
+        newFeed.posts.map(p => {
+          p.extractImg();
+        });
         resolve(newFeed);
       });
       fetching.then(feed => {

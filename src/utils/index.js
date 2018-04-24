@@ -2,6 +2,7 @@ import chalk from "chalk";
 import feedparser from "feedparser-promised";
 import favicon from "favicon";
 import trunc from "trunc-html";
+import oust from "oust";
 
 const stripTags = (html, tags) => {
   return trunc(html, 10000, { ignoreTags: tags }).html;
@@ -33,6 +34,19 @@ export class Post {
       link: post.meta.link,
       title: post.meta.title
     };
+    this.extractedImages = null;
+  }
+  extractImg() {
+    let images = oust(this.description, "images");
+    images = images.filter(i => {
+      // TODO: need to filter out twitter icons etc
+      if (!i.match(/netlify|cloudinary/g)) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    this.extractedImages = images;
   }
 }
 
