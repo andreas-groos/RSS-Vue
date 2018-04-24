@@ -1,21 +1,23 @@
 <template>
-  <div id="home">
-    <!-- <Header class="header" />-->
-    <multipane class="custom-resizer"
-               layout="vertical"
-               @paneResizeStop="stoppedResize">
-      <div class="pane sidebar">
-        <Sidebar />
-      </div>
-      <multipane-resizer></multipane-resizer>
-      <div class="pane main">
-        <div>
-
-          <h6>Pane 3</h6>
+  <v-app>
+    <div id="home">
+      <!-- <Header class="header" />-->
+      <multipane class="custom-resizer"
+                 layout="vertical"
+                 @paneResizeStop="stoppedResize">
+        <div class="pane sidebar">
+          <Sidebar />
         </div>
-      </div>
-    </multipane>
-  </div>
+        <multipane-resizer></multipane-resizer>
+        <div class="pane main">
+          <div>
+
+            <h1>Pane 3</h1>
+          </div>
+        </div>
+      </multipane>
+    </div>
+  </v-app>
 </template>
 <script>
 import Header from "../components/Header";

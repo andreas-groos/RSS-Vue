@@ -14,6 +14,5 @@ export default {
 </script>
 <style lang="scss">
 body {
-  font-family: "Roboto", "Ubuntu", sans-serif; // FIXME: didn't use Roboto otherwise
 }
 </style>

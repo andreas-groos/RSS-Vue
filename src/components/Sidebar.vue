@@ -1,9 +1,30 @@
 <template>
-  <div>
-    <div class="list">
-      <div class="display-2">Regular</div>
-    </div>
-  </div>
+  <v-container fluid
+               px-0>
+    <v-layout row
+              justify-center
+              py-2>
+      <v-btn @click="showSearch = !showSearch">
+        <v-icon>search</v-icon>
+      </v-btn>
+      <v-btn @click="showAdd = !showAdd">
+        <v-icon>add</v-icon>
+      </v-btn>
+    </v-layout>
+    <v-layout row>
+      <v-text-field v-if="showSearch"
+                    v-model="searchText"
+                    @keyup.enter="search"
+                    placeholder="search anything"
+                    autofocus></v-text-field>
+      <v-text-field v-if="showAdd"
+                    v-model="addUrl"
+                    @keyup.enter="add"
+                    placeholder="RSS url"
+                    autofocus></v-text-field>
+    </v-layout>
+
+  </v-container>
 </template>
 
 <script>
@@ -11,56 +32,27 @@ import { mapState } from "vuex";
 
 export default {
   name: "Sidebar",
-  computed: mapState(["posts", "subscriptions", "selectedFeed"]),
+  data() {
+    return {
+      showSearch: false,
+      showAdd: false,
+      searchText: "",
+      addUrl: ""
+    };
+  },
   methods: {
-    selectFeed: function(key) {
-      this.$store.commit("selectFeed", key);
-      this.$router.push("/");
+    search: function() {
+      console.log("object");
+      this.showSearch = false;
     },
-    isActiveFeed: function(key) {
-      if (key === this.selectedFeed) {
-        return true;
-      } else {
-        return false;
-      }
+    add: function() {
+      console.log("add");
+      this.$store.dispatch("addNewFeed", this.addUrl);
+      this.showAdd = false;
     }
   }
 };
 </script>
 
 <style scoped>
-.list {
-  margin-top: 10px;
-  /* margin: 10px 10px; */
-  padding-left: 5px;
-  /* list-style-type: bullet; */
-  color: #111111;
-}
-.flex {
-  display: flex;
-  justify-content: space-between;
-}
-
-.post-number {
-  color: white;
-  background: darkgray;
-  padding: 5px 5px;
-  border-radius: 10px;
-}
-.activeFeed {
-  background: #007bff;
-  color: white;
-  margin-left: -10px;
-  padding-left: 10px;
-}
-li {
-  text-align: left;
-  padding: 5px 5px;
-}
-
-li:hover {
-  background: rgb(125, 163, 233);
-  color: white;
-  border-radius: 5px;
-}
 </style>
