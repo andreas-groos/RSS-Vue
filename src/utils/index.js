@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import feedparser from "feedparser-promised";
-// import fetchFavicon from "@meltwater/fetch-favicon";
+import favicon from "favicon";
 import trunc from "trunc-html";
 
 const stripTags = (html, tags) => {
@@ -44,7 +44,12 @@ export class Feed {
     this.posts = [];
   }
   async getFavicon() {
-    // this.favicon = await fetchFavicon(url);
+    let icon = await favicon(this.url, (err, iconUrl) => {
+      if (err) {
+        console.log("err", err);
+      }
+      this.favicon = iconUrl;
+    });
   }
   async fetchPosts() {
     await feedparser

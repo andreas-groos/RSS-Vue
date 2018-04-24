@@ -9,7 +9,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     feeds: [],
-    feedList: [],
     errors: [],
     loading: false,
     selectedFeed: null,
@@ -18,30 +17,32 @@ export default new Vuex.Store({
   },
   mutations: {
     getLocalStorage(state) {
-      // let posts = JSON.parse(localStorage.getItem("posts"));
-      // let subscriptions = JSON.parse(localStorage.getItem("subscriptions"));
-      // let selectedFeed = localStorage.getItem("selectedFeed");
-      // let selectedPost = JSON.parse(localStorage.getItem("selectedPost"));
-      // if (posts) {
-      //   state.posts = posts;
-      // }
-      // if (subscriptions) {
-      //   state.subscriptions = subscriptions;
-      // }
-      // if (selectedFeed) {
-      //   state.selectedFeed = selectedFeed;
-      // }
-      // if (selectedPost) {
-      //   state.selectedPost = selectedPost;
-      // }
+      let feeds = JSON.parse(localStorage.getItem("feeds"));
+      if (feeds) {
+        state.feeds = feeds;
+      }
     },
     addNewFeed(state, feed) {
-      if (!state.feedList.includes(feed.url)) {
+      if (findIndex(state.feeds, o => feed.url === o.url) === -1) {
         state.feeds.push(feed);
-        state.feedList.push(feed.url);
+        localStorage.setItem("feeds", JSON.stringify(state.feeds));
       } else {
         state.errors.push("You already subscribed to this feed");
       }
+    }
+  },
+  getters: {
+    feedList: state => {
+      return state.feeds.map(m => {
+        if (m.posts.length > 0) {
+          return {
+            url: m.url,
+            description: m.posts[0].meta.description,
+            title: m.posts[0].meta.title,
+            favicon: m.favicon
+          };
+        }
+      });
     }
   },
   actions: {
@@ -49,6 +50,7 @@ export default new Vuex.Store({
       console.log("action");
       let newFeed = new Feed(url);
       let fetching = new Promise(async (resolve, reject) => {
+        await newFeed.getFavicon();
         await newFeed.fetchPosts();
         resolve(newFeed);
       });
