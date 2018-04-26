@@ -1,7 +1,5 @@
 <template>
   <v-layout column>
-    <!-- <v-navigation-drawer permanent> -->
-
     <v-list-tile v-for="feed in feedList"
                  class="feed-list"
                  @click="handleFeedClick(feed.url)"
@@ -16,7 +14,6 @@
                 color="primary">{{feed.numberOfPosts}}</v-chip>
       </div>
     </v-list-tile>
-    <!-- </v-navigation-drawer> -->
   </v-layout>
 </template>
 

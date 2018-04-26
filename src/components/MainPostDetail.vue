@@ -11,6 +11,9 @@
              :class="{starred: selectedPost.starred}">
         <v-icon>star</v-icon>
       </v-btn>
+      <v-btn @click="externalLink">
+        <v-icon>link</v-icon>
+      </v-btn>
       <v-btn color="primary"
              @click="nextArticle">
         next article
@@ -19,6 +22,7 @@
     <hr/>
     <v-chip outline
             color="primary"
+            :key="category"
             v-for="category in selectedPost.categories">{{category}}</v-chip>
 
     <div class="mt-2 title">{{selectedPost.title}}</div>
@@ -29,25 +33,27 @@
 
 <script>
 import { mapState } from "vuex";
+import find from "lodash/find";
 
 export default {
   name: "MainPostDetail",
   computed: {
-    ...mapState(["selectedPost"])
+    ...mapState(["selectedPost", "selectedFeed"])
   },
-  mounted() {
-    console.log(this.selectedPost);
-  },
+  mounted() {},
 
   methods: {
     prevArticle: function() {
-      console.log("prev");
+      this.$store.commit("prevPost");
     },
     nextArticle: function() {
-      console.log("next");
+      this.$store.commit("nextPost");
     },
     starPost: function() {
       this.$store.commit("starPost", this.selectedPost);
+    },
+    externalLink: function() {
+      window.open(this.selectedPost.link, "_blank");
     }
   }
 };

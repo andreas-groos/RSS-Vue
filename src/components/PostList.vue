@@ -65,7 +65,6 @@ export default {
     selectPost: function(post) {
       this.$store.commit("selectPost", post);
       this.list = false;
-
       this.$router.push("/details");
     }
   }

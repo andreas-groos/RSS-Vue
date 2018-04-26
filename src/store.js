@@ -21,11 +21,15 @@ export default new Vuex.Store({
     getLocalStorage(state) {
       let feeds = JSON.parse(localStorage.getItem("feeds"));
       let selectedPost = JSON.parse(localStorage.getItem("selectedPost"));
+      let selectedFeed = JSON.parse(localStorage.getItem("selectedFeed"));
       if (feeds) {
         state.feeds = feeds;
       }
       if (selectedPost) {
         state.selectedPost = selectedPost;
+        if (selectedFeed) {
+          state.selectedFeed = selectedFeed;
+        }
       }
     },
     addNewFeed(state, feed) {
@@ -39,9 +43,9 @@ export default new Vuex.Store({
     selectFeed(state, feedUrl) {
       let feed = find(state.feeds, o => o.url === feedUrl);
       state.selectedFeed = feed;
-      localStorage.setItem("selectedFeed", state.selectedFeed);
+      localStorage.setItem("selectedFeed", JSON.stringify(state.selectedFeed));
       state.selectedPost = null;
-      localStorage.setItem("selectedPost", state.selectedPost);
+      localStorage.setItem("selectedPost", JSON.stringify(state.selectedPost));
     },
     selectPost(state, post) {
       state.selectedPost = post;
@@ -53,6 +57,28 @@ export default new Vuex.Store({
       state.selectedPost.starred = !state.selectedPost.starred;
       localStorage.setItem("selectedPost", JSON.stringify(state.selectedPost));
       localStorage.setItem("feeds", JSON.stringify(state.feeds));
+    },
+    nextPost(state) {
+      let nextIndex = state.selectedPost.index + 1;
+      let next = find(state.selectedFeed.posts, o => o.index === nextIndex);
+      if (next) {
+        state.selectedPost = next;
+        localStorage.setItem(
+          "selectedPost",
+          JSON.stringify(state.selectedPost)
+        );
+      }
+    },
+    prevPost(state) {
+      let nextIndex = state.selectedPost.index - 1;
+      let prev = find(state.selectedFeed.posts, o => o.index === nextIndex);
+      if (prev) {
+        state.selectedPost = prev;
+        localStorage.setItem(
+          "selectedPost",
+          JSON.stringify(state.selectedPost)
+        );
+      }
     }
   },
   getters: {
