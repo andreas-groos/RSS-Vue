@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
-import SinglePost from "./components/SinglePost.vue";
-import PostList from "./components/PostList.vue";
+import MainPostDetail from "./components/MainPostDetail.vue";
+import MainPostList from "./components/MainPostList.vue";
 
 Vue.use(Router);
 
@@ -9,13 +9,13 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "PostList",
-      component: PostList
+      name: "MainPostList",
+      component: MainPostList
     },
     {
-      path: "/details",
-      name: "SinglePost",
-      component: SinglePost
+      path: "/post",
+      name: "MainPostDetail",
+      component: MainPostDetail
     }
   ]
 });

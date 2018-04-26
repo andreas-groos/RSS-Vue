@@ -1,9 +1,9 @@
 <template>
   <div>
     <transition name="fade">
-      <MainPostList v-if="!selectedPost" />
-      <MainPostDetail v-else/>
-      <!-- <router-view></router-view> -->
+      <router-view></router-view>
+      <!-- <MainPostList v-if="!selectedPost" /> -->
+      <!-- <MainPostDetail v-else/> -->
     </transition>
   </div>
 </template>

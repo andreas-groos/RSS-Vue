@@ -28,6 +28,7 @@ export default {
   methods: {
     handleFeedClick: function(e) {
       this.$store.commit("selectFeed", e);
+      this.$router.push("/");
     }
   }
 };

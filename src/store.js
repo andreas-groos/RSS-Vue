@@ -50,18 +50,7 @@ export default new Vuex.Store({
       localStorage.setItem("feeds", JSON.stringify(state.feeds));
     },
     starPost(state, post) {
-      // post.starred = !post.starred;
       state.selectedPost.starred = !state.selectedPost.starred;
-      // console.log("post", post);
-      // // TODO: find post and toggle in state.feeds
-      // let feed = find(state.feeds, o => o.url === state.selectedFeed.url);
-      // let findPost = find(feed.posts, o => o.guid === post.guid);
-      // findPost.starred = !findPost.starred;
-      // console.log("feed", findPost);
-      console.log("post", post);
-      console.log("state.selectedPost.starred", state.selectedPost.starred);
-      console.log("state.selectedFeed", state.selectedFeed);
-      console.log("state.feeds", state.feeds);
       localStorage.setItem("selectedPost", JSON.stringify(state.selectedPost));
       localStorage.setItem("feeds", JSON.stringify(state.feeds));
     }

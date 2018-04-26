@@ -38,6 +38,7 @@ export default {
   methods: {
     selectPost: function(post) {
       this.$store.commit("selectPost", post);
+      this.$router.push("/post");
     }
   }
 };
