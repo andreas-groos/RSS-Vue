@@ -11,6 +11,7 @@
               v-for="post in selectedFeed.posts"
               :key="post.guid">
         <v-card height="100%"
+                width="100%"
                 hover>
           <v-card-title primary-title>
             <div class="flex">
