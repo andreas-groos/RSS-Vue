@@ -13,7 +13,11 @@
         <v-card height="100%"
                 hover>
           <v-card-title primary-title>
-            <h3 :class="{read: post.read}">{{post.title}}</h3>
+            <div class="flex">
+              <h3 :class="{read: post.read}">{{post.title}}</h3>
+              <v-icon v-if="post.starred"
+                      class="starred">star</v-icon>
+            </div>
           </v-card-title>
           <v-card-text :class="{read: post.read}"
                        v-html="post.shortSummary"></v-card-text>
@@ -42,5 +46,14 @@ export default {
 <style scoped>
 .read {
   color: grey;
+}
+.flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.starred {
+  color: goldenrod;
 }
 </style>

@@ -74,7 +74,8 @@ export default new Vuex.Store({
             url: m.url,
             description: m.posts[0].meta.description,
             title: m.posts[0].meta.title,
-            favicon: m.favicon
+            favicon: m.favicon,
+            numberOfPosts: m.posts.length
           };
         }
       });

@@ -10,7 +10,11 @@
                           size="32">
         <img :src="feed.favicon">
       </v-list-tile-avatar>
-      <v-subheader>{{feed.title}}</v-subheader>
+      <div class="flex">
+        <v-subheader>{{feed.title}}</v-subheader>
+        <v-chip outline
+                color="primary">{{feed.numberOfPosts}}</v-chip>
+      </div>
     </v-list-tile>
     <!-- </v-navigation-drawer> -->
   </v-layout>
@@ -32,5 +36,10 @@ export default {
 <style lang="scss" scoped>
 .feed-list:hover {
   background: lightgray;
+}
+.flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 </style>
