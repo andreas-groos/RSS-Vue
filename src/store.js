@@ -20,8 +20,12 @@ export default new Vuex.Store({
   mutations: {
     getLocalStorage(state) {
       let feeds = JSON.parse(localStorage.getItem("feeds"));
+      let selectedPost = JSON.parse(localStorage.getItem("selectedPost"));
       if (feeds) {
         state.feeds = feeds;
+      }
+      if (selectedPost) {
+        state.selectedPost = selectedPost;
       }
     },
     addNewFeed(state, feed) {
@@ -35,6 +39,31 @@ export default new Vuex.Store({
     selectFeed(state, feedUrl) {
       let feed = find(state.feeds, o => o.url === feedUrl);
       state.selectedFeed = feed;
+      localStorage.setItem("selectedFeed", state.selectedFeed);
+      state.selectedPost = null;
+      localStorage.setItem("selectedPost", state.selectedPost);
+    },
+    selectPost(state, post) {
+      state.selectedPost = post;
+      state.selectedPost.read = true;
+      localStorage.setItem("selectedPost", JSON.stringify(state.selectedPost));
+      localStorage.setItem("feeds", JSON.stringify(state.feeds));
+    },
+    starPost(state, post) {
+      // post.starred = !post.starred;
+      state.selectedPost.starred = !state.selectedPost.starred;
+      // console.log("post", post);
+      // // TODO: find post and toggle in state.feeds
+      // let feed = find(state.feeds, o => o.url === state.selectedFeed.url);
+      // let findPost = find(feed.posts, o => o.guid === post.guid);
+      // findPost.starred = !findPost.starred;
+      // console.log("feed", findPost);
+      console.log("post", post);
+      console.log("state.selectedPost.starred", state.selectedPost.starred);
+      console.log("state.selectedFeed", state.selectedFeed);
+      console.log("state.feeds", state.feeds);
+      localStorage.setItem("selectedPost", JSON.stringify(state.selectedPost));
+      localStorage.setItem("feeds", JSON.stringify(state.feeds));
     }
   },
   getters: {

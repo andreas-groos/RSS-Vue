@@ -4,18 +4,18 @@ import favicon from "favicon";
 import trunc from "trunc-html";
 import oust from "oust";
 
-const stripTags = (html, tags) => {
-  return trunc(html, 10000, { ignoreTags: tags }).html;
+export const stripTags = (html, chars, tags) => {
+  return trunc(html, chars, { ignoreTags: tags }).html;
 };
 
-const textOnly = html => {
-  return stripTags(html, ["img", "a"]);
+export const textOnly = (html, chars) => {
+  return stripTags(html, chars, [("img", "a")]);
 };
-const stripImg = html => {
-  return stripTags(html, ["img"]);
+export const stripImg = (html, chars) => {
+  return stripTags(html, chars, ["img"]);
 };
 export class Post {
-  constructor(post) {
+  constructor(post, index) {
     this.author = post.author;
     this.categories = post.categories;
     this.comments = post.comments;
@@ -26,7 +26,11 @@ export class Post {
     this.image = post.image;
     this.title = post.title;
     this.summary = post.summary;
+    this.shortSummary = textOnly(post.summary, 200);
     this.link = post.link;
+    this.index = index;
+    this.read = false;
+    this.starred = false;
     this.meta = {
       categories: post.meta.categories,
       description: post.meta.description,
@@ -38,14 +42,8 @@ export class Post {
   }
   extractImg() {
     let images = oust(this.description, "images");
-    images = images.filter(i => {
-      // TODO: need to filter out twitter icons etc
-      if (!i.match(/netlify|cloudinary/g)) {
-        return true;
-      } else {
-        return false;
-      }
-    });
+    images = images.filter(i => !i.match(/netlify|cloudinary/g));
+    // TODO: need to filter out twitter icons etc;
     this.extractedImages = images;
   }
 }
@@ -69,8 +67,8 @@ export class Feed {
     await feedparser
       .parse(this.url)
       .then(items => {
-        items.map(i => {
-          this.posts.push(new Post(i));
+        items.map((i, index) => {
+          this.posts.push(new Post(i, index));
         });
         if (items.length === 0) {
           this.error = "could not get posts in feed";

@@ -1,14 +1,24 @@
 <template>
   <div>
     <transition name="fade">
-      <router-view></router-view>
+      <MainPostList v-if="!selectedPost" />
+      <MainPostDetail v-else/>
+      <!-- <router-view></router-view> -->
     </transition>
   </div>
 </template>
 
 <script>
+import MainPostList from "./MainPostList";
+import MainPostDetail from "./MainPostDetail";
+import { mapState } from "vuex";
+
 export default {
-  name: "Main"
+  name: "Main",
+  components: { MainPostList, MainPostDetail },
+  computed: {
+    ...mapState(["selectedPost"])
+  }
 };
 </script>
 

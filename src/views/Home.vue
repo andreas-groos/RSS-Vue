@@ -10,10 +10,7 @@
         </div>
         <multipane-resizer></multipane-resizer>
         <div class="pane main">
-          <div>
-
-            <h1>Pane 3</h1>
-          </div>
+          <Main />
         </div>
       </multipane>
     </div>

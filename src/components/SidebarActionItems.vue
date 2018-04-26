@@ -1,8 +1,7 @@
 <template>
   <div>
     <v-layout row
-              justify-center
-              py-2>
+              justify-center>
       <v-btn @click="clickOnSearch">
         <v-icon>search</v-icon>
       </v-btn>
